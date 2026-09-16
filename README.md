@@ -41,7 +41,7 @@ For `pi-agent-ide`, select that adapter and provide its exact registered `harnes
 The workflow has two jobs:
 
 1. `run` produces, validates, and attests the exact result bundle;
-2. `submit` sends those same bytes to a Hugging Face Dataset candidate without rerunning inference.
+2. `submit` sends those same bytes to a Hugging Face Dataset candidate, waits for the exact acceptance receipt, comments with the Dataset commit, and closes the candidate without rerunning inference.
 
 The Dataset acceptance workflow verifies provenance and policy, appends the normalized observations, rebuilds leaderboard/views/badges atomically, and publishes with a scoped short-lived credential. No maintainer review is required for a valid official result.
 
@@ -61,7 +61,7 @@ If `run` succeeded but Hugging Face was unavailable, do not rerun the benchmark.
 2. Open **Actions → Resubmit existing official result → Run workflow**.
 3. Enter the original run ID and attempt.
 
-The recovery workflow downloads the retained original archive and attestation, verifies their digest and execution identity, and retries only delivery. Submitting the same execution and digest is idempotent; a different bundle with the same execution identity is rejected as a conflict.
+The recovery workflow downloads the retained original archive and attestation, verifies their digest and execution identity, and retries only delivery. If the candidate already exists, it resumes from that candidate, verifies its accepted commit, and closes it. Submitting the same execution and digest is idempotent; a different bundle with the same execution identity is rejected as a conflict.
 
 ## Verify independently
 

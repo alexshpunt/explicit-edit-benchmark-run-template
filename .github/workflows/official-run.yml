@@ -61,7 +61,7 @@ jobs:
 
   submit:
     needs: run
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@640c173ae64e220b768273d6930675f6e0a22c8c
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@a5b479e47e53814c57278491664ea83488dc358d
     with:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
