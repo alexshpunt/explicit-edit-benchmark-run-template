@@ -64,6 +64,7 @@ jobs:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
       signer_sha: 339f8c739880930c9b0d087f9946d8f53cfbe940
+      policy_sha: c73e3667e79cbb28edda4d02d07bbbb11c3760ff
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}
