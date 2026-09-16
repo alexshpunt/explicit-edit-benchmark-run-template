@@ -35,6 +35,11 @@ name: Run official benchmark
         required: false
         default: ""
         type: string
+      runtime_version:
+        description: Exact auxiliary runtime version when required
+        required: false
+        default: ""
+        type: string
 
 permissions:
   actions: read
@@ -53,6 +58,7 @@ jobs:
       adapter: ${{ inputs.adapter }}
       agent_version: ${{ inputs.agent_version }}
       harness_version: ${{ inputs.harness_version }}
+      runtime_version: ${{ inputs.runtime_version }}
       provider: openai-codex
     secrets:
       pi_auth_json: ${{ secrets.PI_AUTH_JSON }}
