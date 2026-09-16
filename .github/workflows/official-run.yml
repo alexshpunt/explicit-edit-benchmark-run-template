@@ -15,22 +15,20 @@ name: Run official benchmark
         required: true
         default: low
         type: choice
-        options: ["off", minimal, low, medium, high, xhigh]
+        options: ["off", low, medium, high, max]
       task:
         description: Registered task id; one task is a valid partial run
         required: true
         default: replace-all-10-plain
         type: string
       adapter:
-        description: Registered official adapter
+        description: Adapter id from the benchmark registry
         required: true
         default: pi-default
-        type: choice
-        options: [pi-default, pi-agent-ide]
+        type: string
       agent_version:
-        description: Exact Pi Coding Agent version
+        description: Exact published agent package version
         required: true
-        default: 0.85.1
         type: string
       harness_version:
         description: Exact extension version; required only for pi-agent-ide
@@ -47,7 +45,7 @@ permissions:
 
 jobs:
   run:
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@ba82ac048ca50491b1d074a0e42481d4605c9a8f
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@b190ce2386484940b4b11f591a8726c0b883e2e1
     with:
       model: ${{ inputs.model }}
       thinking: ${{ inputs.thinking }}
@@ -65,7 +63,7 @@ jobs:
     with:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
-      signer_sha: ba82ac048ca50491b1d074a0e42481d4605c9a8f
+      signer_sha: b190ce2386484940b4b11f591a8726c0b883e2e1
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}
