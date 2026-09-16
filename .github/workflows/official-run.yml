@@ -1,0 +1,71 @@
+---
+# yamllint disable rule:line-length
+name: Run official benchmark
+
+"on":
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Exact registered model id
+        required: true
+        default: openai-codex/gpt-5.6-luna
+        type: string
+      thinking:
+        description: Reasoning level
+        required: true
+        default: low
+        type: choice
+        options: ["off", minimal, low, medium, high, xhigh]
+      task:
+        description: Registered task id; one task is a valid partial run
+        required: true
+        default: replace-all-10-plain
+        type: string
+      adapter:
+        description: Registered official adapter
+        required: true
+        default: pi-default
+        type: choice
+        options: [pi-default, pi-agent-ide]
+      agent_version:
+        description: Exact Pi Coding Agent version
+        required: true
+        default: 0.85.1
+        type: string
+      harness_version:
+        description: Exact extension version; required only for pi-agent-ide
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+
+jobs:
+  run:
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@ba82ac048ca50491b1d074a0e42481d4605c9a8f
+    with:
+      model: ${{ inputs.model }}
+      thinking: ${{ inputs.thinking }}
+      task: ${{ inputs.task }}
+      adapter: ${{ inputs.adapter }}
+      agent_version: ${{ inputs.agent_version }}
+      harness_version: ${{ inputs.harness_version }}
+      provider: openai-codex
+    secrets:
+      pi_auth_json: ${{ secrets.PI_AUTH_JSON }}
+
+  submit:
+    needs: run
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@640c173ae64e220b768273d6930675f6e0a22c8c
+    with:
+      producer_run_id: ${{ github.run_id }}
+      producer_attempt: ${{ github.run_attempt }}
+      signer_sha: ba82ac048ca50491b1d074a0e42481d4605c9a8f
+      dataset_repository: alexshpunt/explicit-edit-benchmark
+    secrets:
+      hf_token: ${{ secrets.HF_TOKEN }}
