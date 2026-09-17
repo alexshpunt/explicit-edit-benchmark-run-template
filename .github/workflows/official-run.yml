@@ -17,10 +17,15 @@ name: Run official benchmark
         type: choice
         options: ["off", low, medium, high, max]
       task:
-        description: Registered task id; one task is a valid partial run
-        required: true
-        default: replace-all-10-plain
+        description: Optional task id; empty runs all 226 canonical tasks
+        required: false
+        default: ""
         type: string
+      concurrency:
+        description: Concurrency for a full canonical run
+        required: false
+        default: 10
+        type: number
       adapter:
         description: Adapter id from the benchmark registry
         required: true
@@ -55,6 +60,7 @@ jobs:
       model: ${{ inputs.model }}
       thinking: ${{ inputs.thinking }}
       task: ${{ inputs.task }}
+      concurrency: ${{ inputs.concurrency }}
       adapter: ${{ inputs.adapter }}
       agent_version: ${{ inputs.agent_version }}
       harness_version: ${{ inputs.harness_version }}
