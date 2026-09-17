@@ -24,8 +24,8 @@ name: Run official benchmark
       concurrency:
         description: Concurrency for a full canonical run
         required: false
-        default: 10
-        type: number
+        default: "10"
+        type: string
       adapter:
         description: Adapter id from the benchmark registry
         required: true
