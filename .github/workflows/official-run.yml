@@ -17,10 +17,15 @@ name: Run official benchmark
         type: choice
         options: ["off", low, medium, high, max]
       task:
-        description: Registered task id; one task is a valid partial run
-        required: true
-        default: replace-all-10-plain
+        description: Optional task id; empty runs all 226 canonical tasks
+        required: false
+        default: ""
         type: string
+      concurrency:
+        description: Concurrency for a full canonical run
+        required: false
+        default: 10
+        type: number
       adapter:
         description: Adapter id from the benchmark registry
         required: true
@@ -50,11 +55,12 @@ permissions:
 
 jobs:
   run:
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@2d41294d4aa07ecfc5169baefbf5b7c27aeb7aab
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@6b8d5cf87b556ce178837f67611d2052f1003e3a
     with:
       model: ${{ inputs.model }}
       thinking: ${{ inputs.thinking }}
       task: ${{ inputs.task }}
+      concurrency: ${{ inputs.concurrency }}
       adapter: ${{ inputs.adapter }}
       agent_version: ${{ inputs.agent_version }}
       harness_version: ${{ inputs.harness_version }}
@@ -65,12 +71,12 @@ jobs:
 
   submit:
     needs: run
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@5ad01c9187113be0e1275b86dad89b1d12d042f4
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@64b2f612d1fc9b4b79b11b07d9819c1287c9e98b
     with:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
-      signer_sha: 2d41294d4aa07ecfc5169baefbf5b7c27aeb7aab
-      policy_sha: 5ad01c9187113be0e1275b86dad89b1d12d042f4
+      signer_sha: 6b8d5cf87b556ce178837f67611d2052f1003e3a
+      policy_sha: 64b2f612d1fc9b4b79b11b07d9819c1287c9e98b
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}
