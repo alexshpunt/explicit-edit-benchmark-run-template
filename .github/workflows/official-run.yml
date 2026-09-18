@@ -10,6 +10,11 @@ name: Run official benchmark
         required: true
         default: openai-codex/gpt-5.6-luna
         type: string
+      provider:
+        description: Provider id matching the model prefix
+        required: true
+        default: openai-codex
+        type: string
       thinking:
         description: Reasoning level
         required: true
@@ -65,7 +70,7 @@ jobs:
       agent_version: ${{ inputs.agent_version }}
       harness_version: ${{ inputs.harness_version }}
       runtime_version: ${{ inputs.runtime_version }}
-      provider: openai-codex
+      provider: ${{ inputs.provider }}
     secrets:
       pi_auth_json: ${{ secrets.PI_AUTH_JSON }}
 
