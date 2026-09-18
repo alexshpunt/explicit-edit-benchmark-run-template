@@ -71,6 +71,7 @@ jobs:
       harness_version: ${{ inputs.harness_version }}
       runtime_version: ${{ inputs.runtime_version }}
       provider: ${{ inputs.provider }}
+      policy_sha: f5d7b0040f20e4046771bed87650a9dc93a70f98
     secrets:
       pi_auth_json: ${{ secrets.PI_AUTH_JSON }}
 
