@@ -60,7 +60,7 @@ permissions:
 
 jobs:
   run:
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@8abc9aa72589ec22b1f2a4e308f780dad895ae36
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@b3a33215e65244b416d64fe3a06be8c2ea044139
     with:
       model: ${{ inputs.model }}
       thinking: ${{ inputs.thinking }}
@@ -76,12 +76,12 @@ jobs:
 
   submit:
     needs: run
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@5164a62fe888bce9f0511bbe49f34a5708ac16a3
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@f5d7b0040f20e4046771bed87650a9dc93a70f98
     with:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
-      signer_sha: 8abc9aa72589ec22b1f2a4e308f780dad895ae36
-      policy_sha: 5164a62fe888bce9f0511bbe49f34a5708ac16a3
+      signer_sha: b3a33215e65244b416d64fe3a06be8c2ea044139
+      policy_sha: f5d7b0040f20e4046771bed87650a9dc93a70f98
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}
