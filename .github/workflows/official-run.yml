@@ -66,7 +66,7 @@ permissions:
 
 jobs:
   run:
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@36f42b57c68566590ae115783610656a4d1fc208
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@407313b0f72f81c95c36043d5d03aa774ca2b6cd
     with:
       model: ${{ inputs.model }}
       thinking: ${{ inputs.thinking }}
@@ -78,18 +78,18 @@ jobs:
       harness_version: ${{ inputs.harness_version }}
       runtime_version: ${{ inputs.runtime_version }}
       provider: ${{ inputs.provider }}
-      policy_sha: 953eebfd55a880b66fb01f7d026a4ac79f55c0fa
+      policy_sha: aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
     secrets:
       pi_auth_json: ${{ secrets.PI_AUTH_JSON }}
 
   submit:
     needs: run
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@953eebfd55a880b66fb01f7d026a4ac79f55c0fa
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
     with:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
-      signer_sha: 36f42b57c68566590ae115783610656a4d1fc208
-      policy_sha: 953eebfd55a880b66fb01f7d026a4ac79f55c0fa
+      signer_sha: 407313b0f72f81c95c36043d5d03aa774ca2b6cd
+      policy_sha: aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}
