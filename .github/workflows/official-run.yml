@@ -21,15 +21,21 @@ name: Run official benchmark
         default: low
         type: choice
         options: ["off", low, medium, high, max]
+      suite:
+        description: Benchmark suite
+        required: true
+        default: explicit-edit
+        type: choice
+        options: [explicit-edit, explicit-edit-multi-agent]
       task:
-        description: Optional task id; empty runs all 226 canonical tasks
+        description: "Explicit Edit: optional task id; empty runs all 226 tasks. Multi-Agent: all 71 tasks; leave empty."
         required: false
         default: ""
         type: string
       concurrency:
-        description: Concurrency for a full canonical run
+        description: "Explicit Edit: full-run concurrency (default 10). Multi-Agent: fixed 15. Empty uses the suite default."
         required: false
-        default: "10"
+        default: ""
         type: string
       adapter:
         description: Adapter id from the benchmark registry
@@ -60,10 +66,11 @@ permissions:
 
 jobs:
   run:
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@aa41466d325d9f2fee4e3a2a41b62071b23e00d5
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-run.yml@407313b0f72f81c95c36043d5d03aa774ca2b6cd
     with:
       model: ${{ inputs.model }}
       thinking: ${{ inputs.thinking }}
+      suite: ${{ inputs.suite }}
       task: ${{ inputs.task }}
       concurrency: ${{ inputs.concurrency }}
       adapter: ${{ inputs.adapter }}
@@ -71,18 +78,18 @@ jobs:
       harness_version: ${{ inputs.harness_version }}
       runtime_version: ${{ inputs.runtime_version }}
       provider: ${{ inputs.provider }}
-      policy_sha: 0f39b97d028e3173042cfc87d72912d952d8603d
+      policy_sha: aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
     secrets:
       pi_auth_json: ${{ secrets.PI_AUTH_JSON }}
 
   submit:
     needs: run
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@0f39b97d028e3173042cfc87d72912d952d8603d
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
     with:
       producer_run_id: ${{ github.run_id }}
       producer_attempt: ${{ github.run_attempt }}
-      signer_sha: aa41466d325d9f2fee4e3a2a41b62071b23e00d5
-      policy_sha: 0f39b97d028e3173042cfc87d72912d952d8603d
+      signer_sha: 407313b0f72f81c95c36043d5d03aa774ca2b6cd
+      policy_sha: aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}

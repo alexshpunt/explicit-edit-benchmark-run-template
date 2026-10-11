@@ -14,6 +14,11 @@ name: Resubmit existing official result
         required: true
         default: "1"
         type: string
+      signer_sha:
+        description: Original producer signer commit; use the original SHA for older results
+        required: true
+        default: "407313b0f72f81c95c36043d5d03aa774ca2b6cd"
+        type: string
 
 permissions:
   actions: read
@@ -21,11 +26,12 @@ permissions:
 
 jobs:
   submit:
-    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@640c173ae64e220b768273d6930675f6e0a22c8c
+    uses: alexshpunt/explicit-edit-benchmark/.github/workflows/official-submit.yml@aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
     with:
       producer_run_id: ${{ inputs.producer_run_id }}
       producer_attempt: ${{ inputs.producer_attempt }}
-      signer_sha: ba82ac048ca50491b1d074a0e42481d4605c9a8f
+      signer_sha: ${{ inputs.signer_sha }}
+      policy_sha: aadaa72e1d5f9ac59edcfc5c8bd773959aab222b
       dataset_repository: alexshpunt/explicit-edit-benchmark
     secrets:
       hf_token: ${{ secrets.HF_TOKEN }}
