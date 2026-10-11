@@ -28,12 +28,12 @@ name: Run official benchmark
         type: choice
         options: [explicit-edit, explicit-edit-multi-agent]
       task:
-        description: Optional Explicit Edit task; Multi-Agent always runs all 71 tasks
+        description: "Explicit Edit: optional task id; empty runs all 226 tasks. Multi-Agent: all 71 tasks; leave empty."
         required: false
         default: ""
         type: string
       concurrency:
-        description: Empty uses the suite default (10 or fixed 15 agents)
+        description: "Explicit Edit: full-run concurrency (default 10). Multi-Agent: fixed 15. Empty uses the suite default."
         required: false
         default: ""
         type: string
